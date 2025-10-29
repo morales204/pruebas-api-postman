@@ -1,0 +1,60 @@
+name: Test API with Postman CLI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-api:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Start FastAPI in background
+        run: |
+          uvicorn main:app --host 0.0.0.0 --port 8000 > server.log 2>&1 &
+
+      - name: Wait for server to be ready
+        run: |
+          for i in {1..20}; do
+            echo "Pinging server... (attempt $i)"
+            # Use the /docs endpoint for the health check
+            if curl -sSf http://localhost:8000/docs; then
+              echo "Server is up and running!"
+              break
+            fi
+            sleep 1
+          done
+          # If the server did not start, show logs and fail the job
+          if ! curl -sSf http://localhost:8000/docs; then
+            echo "Server failed to start. Displaying logs:"
+            cat server.log
+            exit 1
+          fi
+
+      - name: Install Postman CLI
+        run: |
+          curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
+
+      - name: Login to Postman CLI
+        run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
+
+      - name: Run Postman Collection
+        run: |
+          # Reemplace "YOUR_COLLECTION_ID" con el ID de su colección de Postman.
+          # Puede encontrar el ID en Postman, en la vista de la colección,
+          # en la pestaña de información (i).
+          postman collection run "YOUR_COLLECTION_ID"
