@@ -11,6 +11,42 @@
 			"item": [
 				{
 					"name": "Read Root",
+					"event": [
+						{
+							"id": "44736a4c-89ff-4e12-858c-d9b54917e496",
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Tests for 'Read Root' request",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response has Content-Type header\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"try {",
+									"    var jsonData = pm.response.json();",
+									"    pm.test(\"Response is a valid JSON object or string\", function () {",
+									"        pm.expect([\"object\", \"string\"]).to.include(typeof jsonData);",
+									"    });",
+									"    pm.test(\"Response contains greeting or welcome message\", function () {",
+									"        if (typeof jsonData === \"object\") {",
+									"            var values = Object.values(jsonData).join(\" \").toLowerCase();",
+									"            pm.expect(values).to.include(\"bienvenida\");",
+									"        } else if (typeof jsonData === \"string\") {",
+									"            pm.expect(jsonData.toLowerCase()).to.include(\"bienvenida\");",
+									"        }",
+									"    });",
+									"} catch (e) {",
+									"    pm.test(\"Response is not JSON\", function () {",
+									"        pm.expect.fail(\"Response is not valid JSON\");",
+									"    });",
+									"}"
+								]
+							}
+						}
+					],
 					"id": "49991751-53c06a76-5c52-44e6-9868-5b2f51f8997b",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
