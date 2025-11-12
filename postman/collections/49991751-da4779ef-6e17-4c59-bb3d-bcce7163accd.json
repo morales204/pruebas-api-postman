@@ -7,6 +7,220 @@
 	},
 	"item": [
 		{
+			"name": "/",
+			"item": [
+				{
+					"name": "Read Root",
+					"id": "49991751-53c06a76-5c52-44e6-9868-5b2f51f8997b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								""
+							]
+						},
+						"description": "Devuelve un saludo de bienvenida."
+					},
+					"response": [
+						{
+							"id": "49991751-c9861fb5-f162-42ca-88aa-9077e8de58ab",
+							"name": "Successful Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"responseTime": null,
+							"body": ""
+						}
+					]
+				}
+			],
+			"id": "49991751-7a365e70-21ae-4284-9e12-5d4bc58fcdc2"
+		},
+		{
+			"name": "items",
+			"item": [
+				{
+					"name": "{item_id}",
+					"item": [
+						{
+							"name": "Read Item",
+							"id": "49991751-35dcc66e-4a0b-4a9c-9ca2-367f2fdd4dc9",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/items/:item_id?q=string",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"items",
+										":item_id"
+									],
+									"query": [
+										{
+											"key": "q",
+											"value": "string"
+										}
+									],
+									"variable": [
+										{
+											"id": "d659772f-2d5c-4130-8f8d-467f68a88526",
+											"key": "item_id",
+											"value": "9866"
+										}
+									]
+								},
+								"description": "Devuelve un item específico, con una query opcional."
+							},
+							"response": [
+								{
+									"id": "49991751-4d80c4b9-c2b2-4092-bf1d-60c059a35bde",
+									"name": "Successful Response",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/items/:item_id?q=string",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"items",
+												":item_id"
+											],
+											"query": [
+												{
+													"key": "q",
+													"value": "string"
+												}
+											],
+											"variable": [
+												{
+													"key": "item_id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": ""
+								},
+								{
+									"id": "49991751-116f2904-4448-4c71-8d76-15c29ff351fa",
+									"name": "Validation Error",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/items/:item_id?q=string",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"items",
+												":item_id"
+											],
+											"query": [
+												{
+													"key": "q",
+													"value": "string"
+												}
+											],
+											"variable": [
+												{
+													"key": "item_id"
+												}
+											]
+										}
+									},
+									"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+									"code": 422,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        5064,\n        4087\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}"
+								}
+							]
+						}
+					],
+					"id": "49991751-8fe5029b-a2c1-439d-a74c-cf3fa836c37c"
+				}
+			],
+			"id": "49991751-892a63ba-5224-498f-8259-094a6fa5c1ed"
+		},
+		{
 			"name": "Get data",
 			"event": [
 				{
