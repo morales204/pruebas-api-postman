@@ -21,4 +21,4 @@ jobs:
           POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
         run: |
           postman login --with-api-key $POSTMAN_API_KEY
-          postman collection run "49991751-da4779ef-6e17-4c59-bb3d-bcce7163accd"
+          postman collection run "49991751-da4779ef-6e17-4c59-bb3d-bcce7163accd" --environment "49991751-18b2af3d-8d26-4b92-bc8b-d3e55f7f6d4a"
