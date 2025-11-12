@@ -118,6 +118,38 @@
 					"item": [
 						{
 							"name": "Read Item",
+							"event": [
+								{
+									"id": "c41e7be2-2400-4b89-bed5-3c9a28965fca",
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"// Tests for 'Read Item' request",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test(\"Response has Content-Type header\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"try {",
+											"    var jsonData = pm.response.json();",
+											"    pm.test(\"Response is a valid JSON object\", function () {",
+											"        pm.expect(jsonData).to.be.an(\"object\");",
+											"    });",
+											"    pm.test(\"Response contains expected item properties\", function () {",
+											"        // Adjust property checks as needed",
+											"        pm.expect(Object.keys(jsonData).length).to.be.above(0);",
+											"    });",
+											"} catch (e) {",
+											"    pm.test(\"Response is not JSON\", function () {",
+											"        pm.expect.fail(\"Response is not valid JSON\");",
+											"    });",
+											"}"
+										]
+									}
+								}
+							],
 							"id": "49991751-35dcc66e-4a0b-4a9c-9ca2-367f2fdd4dc9",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -264,9 +296,30 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
+							"// Tests for 'Get data' request",
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
-							"});"
+							"});",
+							"pm.test(\"Response has Content-Type header\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"try {",
+							"    var jsonData = pm.response.json();",
+							"    pm.test(\"Response is a valid JSON object or array\", function () {",
+							"        pm.expect([\"object\", \"array\"]).to.include(Array.isArray(jsonData) ? \"array\" : typeof jsonData);",
+							"    });",
+							"    pm.test(\"Response body is not empty\", function () {",
+							"        if (Array.isArray(jsonData)) {",
+							"            pm.expect(jsonData.length).to.be.above(0);",
+							"        } else {",
+							"            pm.expect(Object.keys(jsonData).length).to.be.above(0);",
+							"        }",
+							"    });",
+							"} catch (e) {",
+							"    pm.test(\"Response is not JSON\", function () {",
+							"        pm.expect.fail(\"Response is not valid JSON\");",
+							"    });",
+							"}"
 						]
 					}
 				}
@@ -290,10 +343,27 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"pm.test(\"Successful POST request\", function () {",
-							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+							"// Tests for 'Post data' request",
+							"pm.test(\"Status code is 200 or 201\", function () {",
+							"    pm.expect([200, 201]).to.include(pm.response.code);",
 							"});",
-							""
+							"pm.test(\"Response has Content-Type header\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"try {",
+							"    var jsonData = pm.response.json();",
+							"    pm.test(\"Response is a valid JSON object\", function () {",
+							"        pm.expect(jsonData).to.be.an(\"object\");",
+							"    });",
+							"    pm.test(\"Response reflects submitted data (if applicable)\", function () {",
+							"        // Add more specific checks if you know the structure",
+							"        pm.expect(Object.keys(jsonData).length).to.be.above(0);",
+							"    });",
+							"} catch (e) {",
+							"    pm.test(\"Response is not JSON\", function () {",
+							"        pm.expect.fail(\"Response is not valid JSON\");",
+							"    });",
+							"}"
 						]
 					}
 				}
