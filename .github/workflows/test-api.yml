@@ -1,36 +1,24 @@
-name: Automated API tests 
+name: Run Postman API Tests
 
-on: push
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
-  automated-api-tests:
+  test:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v3
 
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.11"
-
-      - name: Install Python dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-      - name: Start FastAPI in background
-        run: |
-          uvicorn main:app --host 0.0.0.0 --port 8000 > server.log 2>&1 &
-
-      - uses: actions/checkout@v4
       - name: Install Postman CLI
         run: |
           curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
-      - name: Login to Postman CLI
-        run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
-      - name: Run API tests
+
+      - name: Run Postman Collection
+        env:
+          POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
         run: |
-          postman collection run "43350414-74db3c4b-cb77-4058-8f77-78d6c387c8b2" --integration-id "182744-${{ github.run_id }}"
-          # Lint your API using Postman CLI
-          postman api lint 0dd2ef1b-6752-4488-853c-01ba9018eaaa --integration-id 182744
+          postman login --with-api-key $POSTMAN_API_KEY
+          postman collection run "49991751-da4779ef-6e17-4c59-bb3d-bcce7163accd"
